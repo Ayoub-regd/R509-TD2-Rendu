@@ -28,6 +28,17 @@ Le fichier `docker-compose.yml` décrit les services web et db, leurs variables 
 
 Le service web dépend de la disponibilité de la base de données.
 
+Le fichier Compose attend deux variables de mot de passe : `DB_PASS` et `POSTGRES_PASSWORD`. Pour **vérifier la syntaxe** de Compose sans publier de mot de passe dans le dépôt :
+
+```bash
+read -r -s -p "Mot de passe de test : " TD2_DB_PASSWORD
+printf '\n'
+DB_PASS="$TD2_DB_PASSWORD" POSTGRES_PASSWORD="$TD2_DB_PASSWORD" docker compose config --quiet
+unset TD2_DB_PASSWORD
+```
+
+Cette commande valide la configuration ; elle ne constitue pas une preuve d'exécution des services Compose.
+
 ## 3. Passage à Kubernetes
 
 Le déploiement est réalisé dans le namespace `r509-td2`.
@@ -58,9 +69,19 @@ kubectl apply -f k8s/00-namespace.yaml
 kubectl apply -f k8s/01-web-config.yaml
 ```
 
-Le Secret `db-secret` doit être créé dans le namespace avant les Deployments. Il fournit les clés `POSTGRES_PASSWORD` et `DB_PASS` avec le même mot de passe.
+Sur un **nouveau cluster**, le Secret `db-secret` doit être créé dans le namespace **avant** d'appliquer les Deployments. Il fournit les clés `POSTGRES_PASSWORD` et `DB_PASS`, avec le même mot de passe :
 
-Il n'est pas versionné dans ce dépôt.
+```bash
+read -r -s -p "Mot de passe PostgreSQL : " TD2_DB_PASSWORD
+printf '\n'
+kubectl -n r509-td2 create secret generic db-secret \
+  --from-literal=POSTGRES_PASSWORD="$TD2_DB_PASSWORD" \
+  --from-literal=DB_PASS="$TD2_DB_PASSWORD" \
+  --dry-run=client -o yaml | kubectl apply -f -
+unset TD2_DB_PASSWORD
+```
+
+Ce Secret est stocké dans Kubernetes : aucun fichier contenant son véritable mot de passe n'est versionné dans Git. Les commandes ci-dessus servent à **reproduire** le TD sur un cluster neuf ; elles ne décrivent pas nécessairement l'ordre historique des opérations effectuées pendant le TP.
 
 Après sa création :
 
@@ -157,4 +178,6 @@ Le déploiement Kubernetes fonctionne avec un Pod PostgreSQL et deux Pods web. L
 
 Les commandes kubectl et les captures Lens permettent de vérifier l'état des ressources.
 
-Le compte rendu PDF accompagne les fichiers techniques de ce TD.
+Le dépôt GitHub contient 16 fichiers suivis, dont six manifestes YAML et quatre captures PNG. L'archive `R509_TD2_REMISE_SIMPLE.zip` reprend ces 16 fichiers. Le compte rendu PDF est remis séparément ; il reproduit les quatre captures du dépôt et présente trois vues complémentaires de Lens et du navigateur. Les résultats illustrés correspondent aux vérifications faites le 4 novembre 2026 et ne doivent pas être interprétés comme des valeurs permanentes.
+
+Le dépôt est privé : un enseignant doit disposer d'un accès autorisé pour pouvoir le consulter.
