@@ -1,0 +1,9 @@
+{
+  "name": "r509-td2-compose-kubernetes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Application Node.js + PostgreSQL pour le TD2 R509",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": { "pg": "^8.13.0" }
+}

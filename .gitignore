@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+node_modules/
+*.log
+*.pid
+*.key
+*.pem
+*.p12
+*.pfx
+kubeconfig*
+*token*
+prive/
+remise/
+.git/
