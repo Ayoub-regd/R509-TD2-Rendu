@@ -180,4 +180,4 @@ Les commandes kubectl et les captures Lens permettent de vérifier l'état des r
 
 Le dépôt GitHub contient 16 fichiers suivis, dont six manifestes YAML et quatre captures PNG. L'archive `R509_TD2_REMISE_SIMPLE.zip` reprend ces 16 fichiers. Le compte rendu PDF est remis séparément ; il reproduit les quatre captures du dépôt et présente trois vues complémentaires de Lens et du navigateur. Les résultats illustrés correspondent aux vérifications faites le 4 novembre 2026 et ne doivent pas être interprétés comme des valeurs permanentes.
 
-Le dépôt est privé : un enseignant doit disposer d'un accès autorisé pour pouvoir le consulter.
+Le dépôt est public et consultable directement à l'adresse https://github.com/Ayoub-regd/R509-TD2-Rendu.
